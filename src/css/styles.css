@@ -159,3 +159,28 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 36px auto;
+}
+
+.load-more-btn {
+  border-radius: 8px;
+  border: none;
+  padding: 8px 16px;
+  background-color: #4e75ff;
+  color: #fff;
+
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.64px;
+}
+
+.load-more-btn:hover {
+  background: #6c8cff;
+}
