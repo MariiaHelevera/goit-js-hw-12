@@ -94,10 +94,10 @@ function createGallery(images) {
           </div>`
       )
       .join('');
-    
+
     gallery.innerHTML = link;
 
-     if (totalHits <= currentPage * perPage) {
+    if (totalHits <= currentPage * perPage) {
       loadMoreBtn.style.display = 'none';
       iziToast.show({
         message: "We're sorry, but you've reached the end of search results.",
@@ -120,6 +120,7 @@ function createGallery(images) {
 
   currentPage += 1;
   searchParams.page = currentPage;
+
 }
 
 function appendToGallery(images) {
