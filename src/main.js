@@ -9,6 +9,8 @@ const gallery = document.getElementById('gallery');
 const loader = document.querySelector('.loader');
 const loadMoreBtn = document.querySelector('.load-more-btn');
 
+const lightBox = new SimpleLightbox('.gallery-link');
+
 let currentPage = 1;
 const perPage = 15;
 let totalHits = 0;
@@ -31,6 +33,7 @@ form.addEventListener('submit', async function (e) {
   searchParams.q = inputValue;
   searchParams.page = 1;
   currentPage = 1;
+  loadMoreBtn.style.display = 'none';
   try {
     const images = await getPhotoByKeyword();
     totalHits = images.totalHits;
@@ -56,10 +59,34 @@ loadMoreBtn.addEventListener('click', async function () {
   searchParams.page += 1;
   try {
     const images = await getPhotoByKeyword();
-    appendToGallery(images);
-    scrollToNextPage();
+    if (images.hits.length > 0) {
+      loader.style.display = 'block';
+      appendToGallery(images);
+      scrollToNextPage();
+      currentPage += 1;
+      searchParams.page = currentPage;
+    } else {
+      loadMoreBtn.style.display = 'none';
+      iziToast.show({
+        message: "We're sorry, but there are no more results to display.",
+        messageColor: '#FFFFFF',
+        backgroundColor: '#EF4040',
+        position: 'topRight',
+        messageSize: '16px',
+        messageLineHeight: '24px',
+        maxWidth: '432px',
+      });
+    }
   } catch (error) {
-    console.log(error);
+    iziToast.error({
+      title: 'Error',
+      message: 'An error occurred while fetching images. Please try again later.',
+      position: 'topRight',
+      timeout: 5000
+    });
+    console.error(error);
+  } finally {
+    loader.style.display = 'none';
   }
 });
 
@@ -113,14 +140,8 @@ function createGallery(images) {
     }
   }
 
-  let lightBox = new SimpleLightbox('.gallery-link');
   lightBox.refresh();
-
   loader.style.display = 'none';
-
-  currentPage += 1;
-  searchParams.page = currentPage;
-
 }
 
 function appendToGallery(images) {
@@ -140,7 +161,6 @@ function appendToGallery(images) {
     )
     .join('');
   gallery.innerHTML += link;
-  let lightBox = new SimpleLightbox('.gallery-link');
   lightBox.refresh();
   loader.style.display = 'none';
 }

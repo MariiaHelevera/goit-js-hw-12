@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "cross-env PIXABAY_API_KEY=42334155-d8ef6d202703fa7fdc7903459 vite",
     "build": "vite build --base=/goit-js-hw-12/",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "glob": "^8.1.0",
     "vite": "^4.5.2"
   },
